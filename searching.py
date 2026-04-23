@@ -1,4 +1,4 @@
-    #api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
+    #api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0" - Amelie's API
 import random
 import requests
 

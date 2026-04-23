@@ -3,12 +3,11 @@ import requests
 
 def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
-    api_key = "YOUR_API_KEY_HERE"
+    api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 
     params = {
         "apikey": api_key,
         "size": 1,
-        "culture": "Dutch",
         "classification": "Paintings",
         "hasimage": 1,
     }

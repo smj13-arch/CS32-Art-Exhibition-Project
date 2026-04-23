@@ -31,3 +31,10 @@ def searching_function():
     print(f"Saved: {title}")
 
     return artwork
+
+def main():
+    searching_function()
+
+
+main()
+

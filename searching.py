@@ -5,11 +5,11 @@ import requests
 def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
-    
+    import requests
+
     params = {
         "apikey": api_key,
         "size": 10,
-        "culture": "Dutch",
         "classification": "Paintings",
         "hasimage": 1,
         "imagepermissionlevel": 0,
@@ -19,24 +19,29 @@ def searching_function():
     data = response.json()
     records = data["records"]
 
-    for i, artwork in enumerate(records, start=1):
+    saved_count = 0
+    for artwork in records:
         title = artwork.get("title", "Untitled")
         image_url = artwork.get("primaryimageurl")
 
         if image_url is None:
-            print(f"{i}. Skipping (no image): {title}")
+            print(f"Skipping (no image): {title}")
             continue
 
+        saved_count += 1
         image_data = requests.get(image_url).content
 
-        filename = f"painting_{i}.jpg"
-
-        with open(filename, "wb") as f:
+        with open(f"painting_{saved_count}.jpg", "wb") as f:
             f.write(image_data)
 
-        print(f"{i}. Saved: {title}")
+        print(f"{saved_count}. Saved: {title}")
 
-    return records
+    print(f"\nDone! Saved {saved_count} paintings.")
+
+def main():
+    searching_function()
+
+main()
 
 def main():
     searching_function()

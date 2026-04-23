@@ -66,6 +66,6 @@ def searching_function(painting_name):
 
 def main():
     # Pass any painting title here as the parameter
-    searching_function("Sunset")
+    searching_function("hill")
 
 main()

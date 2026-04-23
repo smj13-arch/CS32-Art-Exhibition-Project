@@ -1,14 +1,31 @@
-
+    #api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 import random
 import requests
 
-def searching_function(start_time, end_time, artist, country, material):
+#def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 
     params = {
         "apikey": api_key,
-        "size": 10,
-        "q": f"datebegin:[{start_time} TO {end_time}] AND people.name:{artist} AND culture:{country} AND medium:{material}"
-    }   
+        "size": 1,
+        "culture": "Dutch",
+        "classification": "Paintings",
+        "hasimage": 1,
+    }
 
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    artwork = data["records"][0]
+    image_url = artwork["primaryimageurl"]
+    title = artwork.get("title", "Untitled")
+
+    image_data = requests.get(image_url).content
+
+    with open("painting.jpg", "wb") as f:
+        f.write(image_data)
+
+    print(f"Saved: {title}")
+
+ #   return artwork

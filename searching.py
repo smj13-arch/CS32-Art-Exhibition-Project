@@ -1,10 +1,9 @@
     #api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0" - Amelie's API
-import random
 import requests
 
 def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
-    api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
+    api_key = "YOUR_API_KEY_HERE"
 
     params = {
         "apikey": api_key,
@@ -18,8 +17,12 @@ def searching_function():
     data = response.json()
 
     artwork = data["records"][0]
-    image_url = artwork["primaryimageurl"]
+    image_url = artwork.get("primaryimageurl")
     title = artwork.get("title", "Untitled")
+
+    if image_url is None:
+        print(f"No image available for: {title}")
+        return artwork
 
     image_data = requests.get(image_url).content
 
@@ -29,9 +32,3 @@ def searching_function():
     print(f"Saved: {title}")
 
     return artwork
-
-def main():
-    searching_function()
-
-
-main()

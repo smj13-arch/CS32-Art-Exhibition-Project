@@ -2,7 +2,7 @@
 import random
 import requests
 
-#def searching_function():
+def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 
@@ -28,4 +28,10 @@ import requests
 
     print(f"Saved: {title}")
 
- #   return artwork
+    return artwork
+
+def main():
+    searching_function()
+
+
+main()

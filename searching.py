@@ -31,8 +31,9 @@ def searching_function():
     if image_url:
         img_response = requests.get(image_url)
 
-        # make sure it is a real image
-        if "image" in img_response.headers["Content-Type"]:
+        content_type = img_response.headers.get("Content-Type", "")
+
+        if "image" in content_type:
             image_data = img_response.content
 
             with open("painting.jpg", "wb") as f:
@@ -42,8 +43,8 @@ def searching_function():
             image.show()
 
         else:
-            print("The URL did not return an image.")
-            print("Returned type:", img_response.headers["Content-Type"])
+            print("Could not load image.")
+            print("Returned type:", content_type)
 
     else:
         print("No image found.")

@@ -1,5 +1,6 @@
     #api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0" - Amelie's API
 import requests
+import requests
 
 def searching_function():
     base_url = "https://api.harvardartmuseums.org/object"
@@ -8,6 +9,7 @@ def searching_function():
     params = {
         "apikey": api_key,
         "size": 1,
+        "culture": "Dutch",
         "classification": "Paintings",
         "hasimage": 1,
     }
@@ -16,11 +18,20 @@ def searching_function():
     data = response.json()
 
     artwork = data["records"][0]
-    image_url = artwork.get("primaryimageurl")
     title = artwork.get("title", "Untitled")
 
+    print(artwork)
+
+    images = artwork.get("images", [])
+
+    if len(images) == 0:
+        print(f"No images available for: {title}")
+        return artwork
+
+    image_url = images[0].get("baseimageurl")
+
     if image_url is None:
-        print(f"No image available for: {title}")
+        print(f"Image URL missing for: {title}")
         return artwork
 
     image_data = requests.get(image_url).content

@@ -35,7 +35,7 @@ def searching_function(painting_name):
 
         print("Title:", title)
         print("Artist:", artist)
-        print("Year:", year)3
+        print("Year:", year)
 
         img_response = requests.get(image_url)
         content_type = img_response.headers.get("Content-Type", "")
@@ -66,6 +66,6 @@ def searching_function(painting_name):
 
 def main():
     # Pass any painting title here as the parameter
-    searching_function("butter")
+    searching_function("man")
 
 main()

@@ -8,7 +8,16 @@ art galleries. It is often infeasible to physically find the art pieces and lay 
 hours, days, or even weeks finding orientations that are both aesthetically pleasing and agree with
 the artists' intentions.
 
-Instructions for running the code: 
 
+## Instructions for Running the Code
 
+To start the program, run the command "python3 searching.py" in your terminal from the project folder:
+This launches the function `main()` inside `searching.py`, which starts the Harvard Art Museums Curation tool.
+
+From there, the program will:
+1. Ask for your name
+2. adf
+3. Collect search parameters one at a time — including title, year range, artist, culture, classification, medium, technique, and keyword/theme. All fields are optional; leave any blank to skip that filter.
+4. Query the Harvard Art Museums API and assemble a gallery of 5 artworks based on your criteria.
+5. Generate an `index.html` file containing your finished virtual exhibition, which you can open in any browser.
 

@@ -12,12 +12,14 @@ the artists' intentions.
 ## Instructions for Running the Code
 
 To start the program, run the command "python3 searching.py" in your terminal from the project folder:
+Note: Program will not work on CS50.dev, you must run it locally (e.g. VSCode on desktop)
 This launches the function `main()` inside `searching.py`, which starts the Harvard Art Museums Curation tool.
 
 From there, the program will:
-1. Ask for your name
-2. adf
-3. Collect search parameters one at a time — including title, year range, artist, culture, classification, medium, technique, and keyword/theme. All fields are optional; leave any blank to skip that filter.
-4. Query the Harvard Art Museums API and assemble a gallery of 5 artworks based on your criteria.
-5. Generate an `index.html` file containing your finished virtual exhibition, which you can open in any browser.
+1. Ask for your name to customize your very own Art Exhibit
+3. Collect search parameters one at a time: title, start year, end year, artist, culture, classification, medium, technique, and keyword/theme. All fields are optional; leave any blank to skip that filter.
+
+4. Harvard Art Museums API and assemble a gallery of 5 artworks based on your criteria.
+5. Generate a
+ `index.html` file containing your finished virtual exhibition, which you can open in any browser.
 

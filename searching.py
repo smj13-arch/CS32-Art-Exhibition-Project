@@ -133,7 +133,7 @@ def build_html_gallery(artworks, page_title, name):
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-    print("Gallery written to index.html – open it in your browser.")
+    print("Gallery written to index.html – open it in your browser by running open index.html in the terminal.")
 
 
 def client():

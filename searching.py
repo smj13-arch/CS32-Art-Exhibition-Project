@@ -149,11 +149,17 @@ def client():
     classification = input("Classification - e.g.: Sculpture, Painting (optional): ").strip()
     classification = classification[0].upper() + classification[1:] if classification else classification
 
+    medium = input("Medium - e.g.: Watercolor, Bronze, Oil (optional): ").strip()
+    medium = medium[0].upper() + medium[1:] if medium else medium
+
+    technique = input("Technique - e.g.: Etching, Cast, Woodcut (optional): ").strip()
+    technique = technique[0].upper() + technique[1:] if technique else technique
+
     keyword = input("Keyword/theme - e.g. love, blue (optional): ").strip()
     keyword = keyword[0].upper() + keyword[1:] if keyword else keyword
 
     print()
-    return title, start_year, end_year, artist, culture, classification, keyword
+    return title, start_year, end_year, artist, culture, classification, medium, technique, keyword
 
 
 def save_artwork_to_gallery(artwork, saved_count, label=""):
@@ -213,6 +219,8 @@ def searching_function(
     artist="",
     culture="",
     classification="",
+    medium="",
+    technique="",
     keyword="",
     existing_artworks=None,
     target_count=5,
@@ -238,6 +246,10 @@ def searching_function(
         params["culture"] = culture
     if classification:
         params["classification"] = classification
+    if medium:
+        params["medium"] = medium
+    if technique:
+        params["technique"] = technique
     if keyword:
         params["keyword"] = keyword
 
@@ -300,7 +312,7 @@ def random_fill(artworks, target_count=5):
 
     return artworks
 
-def build_criteria_string(title, start_year, end_year, artist, culture, classification, keyword):
+def build_criteria_string(title, start_year, end_year, artist, culture, classification, medium, technique, keyword):
     parts = []
 
     if title:
@@ -311,6 +323,10 @@ def build_criteria_string(title, start_year, end_year, artist, culture, classifi
         parts.append(f'culture "{culture}"')
     if classification:
         parts.append(f'classification "{classification}"')
+    if medium:
+        parts.append(f'medium "{medium}"')
+    if technique:
+        parts.append(f'technique "{technique}"')
     if keyword:
         parts.append(f'keyword "{keyword}"')
     if start_year and end_year:
@@ -334,15 +350,17 @@ def main():
     print(f"{name}'s Art Exhibition:")
     print()
 
-    print("Harvard Art Museums Search")
-    print("Leave any field blank to skip that filter.\n")
+    print("Welcome to the Harvard Art Museums API-powered art exhibition builder! You can search for artworks based on various criteria, and we'll create a personalized gallery for you. Let's get started!")
+    note = '''If you're unsure about any of the search criteria, you can either leave the field blank
+    or take a look at the Harvard Art Museums' available selections in searching_options.md for some inspiration.'''
+    print(note)
 
     # delete any old artwork files in gallery
     for f in os.listdir(GALLERY_DIR):
         if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
             os.remove(os.path.join(GALLERY_DIR, f))
 
-    title, start_year, end_year, artist, culture, classification, keyword = client()
+    title, start_year, end_year, artist, culture, classification, medium, technique, keyword = client()
 
     target_count = 5
     artworks = searching_function(
@@ -352,6 +370,8 @@ def main():
         artist=artist,
         culture=culture,
         classification=classification,
+        medium=medium,
+        technique=technique,
         keyword=keyword,
         existing_artworks=[],
         target_count=target_count,
@@ -366,7 +386,7 @@ def main():
             artworks = random_fill(artworks, target_count)
             break
         elif choice == "2":
-            title, start_year, end_year, artist, culture, classification, keyword = client()
+            title, start_year, end_year, artist, culture, classification, medium, technique, keyword = client()
             artworks = searching_function(
                 title=title,
                 start_year=start_year,
@@ -374,6 +394,8 @@ def main():
                 artist=artist,
                 culture=culture,
                 classification=classification,
+                medium=medium,
+                technique=technique,
                 keyword=keyword,
                 existing_artworks=artworks,
                 target_count=target_count,
@@ -383,7 +405,7 @@ def main():
 
     # Build HTML gallery with metadata (including culture, classification, medium, technique)
     criteria_str = build_criteria_string(
-        title, start_year, end_year, artist, culture, classification, keyword
+        title, start_year, end_year, artist, culture, classification, medium, technique, keyword
     )
     page_title = f"{name}'s art gallery based on {criteria_str}"
     build_html_gallery(artworks, page_title, name)

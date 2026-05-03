@@ -1,4 +1,7 @@
 # Instructions and welcome user to ART EXHIBITOR
+from searching import delete_old_artwork_files
+
+
 def user():
     intro_text = """
     ### Welcome to ART EXHIBITOR: Dream Gallery ###
@@ -29,13 +32,9 @@ def user():
 
 def main():
 
-    # delete any old artwork files in gallery
-    for f in os.listdir(GALLERY_DIR):
-        if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
-            os.remove(os.path.join(GALLERY_DIR, f))
+    delete_old_artwork_files()
 
     title, start_year, end_year, artist, culture, classification, medium, technique, keyword = client()
-
     target_count = 5
     artworks = searching_function(
         title=title,

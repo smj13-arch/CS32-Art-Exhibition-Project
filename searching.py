@@ -344,6 +344,12 @@ def build_criteria_string(title, start_year, end_year, artist, culture, classifi
         return parts[0]
     return ", ".join(parts[:-1]) + " and " + parts[-1]
 
+def delete_old_artwork_files():
+        # delete any old artwork files in gallery
+    for f in os.listdir(GALLERY_DIR):
+        if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
+            os.remove(os.path.join(GALLERY_DIR, f))
+
 def main():
 
     # delete any old artwork files in gallery

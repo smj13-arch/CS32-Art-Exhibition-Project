@@ -345,15 +345,7 @@ def build_criteria_string(title, start_year, end_year, artist, culture, classifi
     return ", ".join(parts[:-1]) + " and " + parts[-1]
 
 def main():
-    # KEEP: ask for name
-    name = input("What's your name? ").strip()
-    print(f"{name}'s Art Exhibition:")
-    print()
 
-    print("Welcome to the Harvard Art Museums API-powered art exhibition builder! You can search for artworks based on various criteria, and we'll create a personalized gallery for you. Let's get started!")
-    note = '''If you're unsure about any of the search criteria, you can either leave the field blank
-    or take a look at the Harvard Art Museums' available selections in searching_options.md for some inspiration.'''
-    print(note)
 
     # delete any old artwork files in gallery
     for f in os.listdir(GALLERY_DIR):

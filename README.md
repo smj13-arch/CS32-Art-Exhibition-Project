@@ -44,6 +44,7 @@ Open your terminal and type in:
 pip install requests pillow
 We install **Requests** and **Pillow** with pip because the program uses **Requests** to download artwork data and images from the internet, and Pillow to open, process, and save those images into your gallery.
 
+
 ## Citing Sources
 
 At the beginning of our program, our text is presented in large blocks (useful for formatting): https://www.geeksforgeeks.org/python/multi-line-printing-in-python/.

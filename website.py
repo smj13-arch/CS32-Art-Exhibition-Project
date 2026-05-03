@@ -1,4 +1,9 @@
-# website.py
+# website.p
+import os
+
+GALLERY_DIR = "gallery"
+os.makedirs(GALLERY_DIR, exist_ok=True)
+
 def build_html_gallery(artworks, page_title, name):
     if not artworks:
         print("No artworks to build gallery.")

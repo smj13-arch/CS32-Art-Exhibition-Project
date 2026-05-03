@@ -8,8 +8,8 @@ using pieces from our beautiful Harvard Art Museums! Either provide specific sea
 parameters to gather the pieces you've been dreaming of, but couldn't quite name—
 or leave it up to us and generate a random virtual gallery.
 
-We suggest gallery sizes of between 5–10 pieces; the maximum capacity is 10.
-Happy creating!
+We have the capacity to create virtual galleries of 5 pieces, including short title
+cards and descriptions beneath each piece. Happy creating!
 """
 
 print(intro_text) # utilizing multiline print statement

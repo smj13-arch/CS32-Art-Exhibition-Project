@@ -41,7 +41,8 @@ understanding our data, and finally used the aid of generative AI to help get th
 It is crucial that we run this code on **local** IDEs because we recall from class that the PIL has trouble showing the images on web-based IDEs. So in this process we were stumped for quite a while, but as soon as we tried running our code in our desktop VS Code, everything started to come together! We then installed the necessary PIL libraries to ensure everything was working as it was supposed to.
 
 Open your terminal and type in:
-pip install requests pillow
+>`pip install requests pillow`
+
 We install **Requests** and **Pillow** with pip because the program uses **Requests** to download artwork data and images from the internet, and Pillow to open, process, and save those images into your gallery.
 
 

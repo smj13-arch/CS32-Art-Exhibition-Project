@@ -25,4 +25,6 @@ def user():
     """
     print(note)
 
+    return name
+
 

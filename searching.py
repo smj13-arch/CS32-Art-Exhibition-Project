@@ -35,57 +35,6 @@ def client():
     return title, start_year, end_year, artist, culture, classification, medium, technique, keyword
 
 
-
-def save_artwork_to_gallery(artwork, saved_count, label=""):
-    image_url = artwork.get("primaryimageurl")
-    if not image_url:
-        return None
-
-    title = artwork.get("title", "Untitled")
-    artist = artwork.get("people", [{}])[0].get("name", "Unknown Artist") if artwork.get("people") else "Unknown Artist"
-    year = artwork.get("dated", "Unknown Year")
-    culture = artwork.get("culture", "Unknown Culture")
-    classification = artwork.get("classification", "Unknown Classification")
-    medium = artwork.get("medium", "Unknown Medium")
-    technique = artwork.get("technique", "Unknown Technique")
-    description = artwork.get("description") or artwork.get("labeltext") or ""
-
-    img_response = requests.get(image_url)
-    content_type = img_response.headers.get("Content-Type", "")
-
-    if "image" not in content_type:
-        return None
-
-    image = Image.open(BytesIO(img_response.content))
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-
-    filename = os.path.join(GALLERY_DIR, f"artwork_{saved_count + 1}.jpg")
-    image.save(filename, "JPEG")
-
-    print(f"Saved {filename}{label}")
-    print("  Title:", title)
-    print("  Artist:", artist)
-    print("  Year:", year)
-    print("  Culture:", culture)
-    print("  Classification:", classification)
-    print("  Medium:", medium)
-    print("  Technique:", technique)
-    print()
-
-    return {
-        "filename": os.path.basename(filename),
-        "title": title,
-        "artist": artist,
-        "year": year,
-        "culture": culture,
-        "classification": classification,
-        "medium": medium,
-        "technique": technique,
-        "description": description,
-    }
-
-
 def searching_function(
     title="",
     start_year="",

@@ -6,7 +6,7 @@ from searching import random_fill
 from searching import build_criteria_string
 from website import build_html_gallery
 import os
-
+from website import save_artwork_to_gallery
 
 def user():
     intro_text = """

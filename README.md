@@ -38,12 +38,14 @@ to work with the capabilities of the Harvard Art Museums API and leveraged its r
 example, we requested to get our own personal API key, downloaded JSON reader extensions to chrome in the early stages of
 understanding our data, and finally used the aid of generative AI to help get the data from the API to the webpage.
 
+It is crucial that we run this code on **local** IDEs because we recall from class that the PIL 
+
 **install pip, pillow. etc.
 
 ## Citing Sources
 
-At the beginning of our program, our text is presented in large blocks [formatting]: https://www.geeksforgeeks.org/python/multi-line-printing-in-python/
-This website gives the instructions on how to query the art museum and retrieve artwork data. We obtained our API key from the form listed on the Harvard Art Museums github documentation (needed to request it) and also  [Museum API Toolkit and Guide]: (https://api-toolkit.herokuapp.com/4)
+At the beginning of our program, our text is presented in large blocks (useful for formatting): https://www.geeksforgeeks.org/python/multi-line-printing-in-python/.
+This website gives the instructions on how to query the art museum and retrieve artwork data. We obtained our API key from the form listed on the Harvard Art Museums github documentation (needed to request it) and also found helpful information about how to query the API for the information we needed (i.e., how to set up the query using the base url and specifying parameters) [Museum API Toolkit and Guide]: (https://api-toolkit.herokuapp.com/4).
 
 
 

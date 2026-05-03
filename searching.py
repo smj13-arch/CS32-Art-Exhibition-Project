@@ -3,7 +3,6 @@ import os
 from PIL import Image
 from io import BytesIO
 
-
 def searching_function(painting_name):
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"

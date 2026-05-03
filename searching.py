@@ -1,4 +1,5 @@
 import requests
+from website import save_artwork_to_gallery
 import os
 import random
 from PIL import Image
@@ -135,6 +136,58 @@ def random_fill(artworks, target_count=5):
 
     return artworks
 
+
+
+
+def save_artwork_to_gallery(artwork, saved_count, label=""):
+    image_url = artwork.get("primaryimageurl")
+    if not image_url:
+        return None
+
+    title = artwork.get("title", "Untitled")
+    artist = artwork.get("people", [{}])[0].get("name", "Unknown Artist") if artwork.get("people") else "Unknown Artist"
+    year = artwork.get("dated", "Unknown Year")
+    culture = artwork.get("culture", "Unknown Culture")
+    classification = artwork.get("classification", "Unknown Classification")
+    medium = artwork.get("medium", "Unknown Medium")
+    technique = artwork.get("technique", "Unknown Technique")
+    description = artwork.get("description") or artwork.get("labeltext") or ""
+
+    img_response = requests.get(image_url)
+    content_type = img_response.headers.get("Content-Type", "")
+
+    if "image" not in content_type:
+        return None
+
+    image = Image.open(BytesIO(img_response.content))
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+
+    filename = os.path.join(GALLERY_DIR, f"artwork_{saved_count + 1}.jpg")
+    image.save(filename, "JPEG")
+
+    print(f"Saved {filename}{label}")
+    print("  Title:", title)
+    print("  Artist:", artist)
+    print("  Year:", year)
+    print("  Culture:", culture)
+    print("  Classification:", classification)
+    print("  Medium:", medium)
+    print("  Technique:", technique)
+    print()
+
+    return {
+        "filename": os.path.basename(filename),
+        "title": title,
+        "artist": artist,
+        "year": year,
+        "culture": culture,
+        "classification": classification,
+        "medium": medium,
+        "technique": technique,
+        "description": description,
+    }
+
 def build_criteria_string(title, start_year, end_year, artist, culture, classification, medium, technique, keyword):
     parts = []
 
@@ -173,63 +226,4 @@ def delete_old_artwork_files():
         if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
             os.remove(os.path.join(GALLERY_DIR, f))
 
-def main():
 
-    # delete any old artwork files in gallery
-    for f in os.listdir(GALLERY_DIR):
-        if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
-            os.remove(os.path.join(GALLERY_DIR, f))
-
-    title, start_year, end_year, artist, culture, classification, medium, technique, keyword = client()
-
-    target_count = 5
-    artworks = searching_function(
-        title=title,
-        start_year=start_year,
-        end_year=end_year,
-        artist=artist,
-        culture=culture,
-        classification=classification,
-        medium=medium,
-        technique=technique,
-        keyword=keyword,
-        existing_artworks=[],
-        target_count=target_count,
-    )
-
-    while len(artworks) < target_count:
-        print(f"We only found {len(artworks)} artwork(s) so far and we require that our exhibitions are five pieces. What would you like to do?")
-        choice = input("Would you like to (1) randomly generate the rest, or (2) search again with new parameters? Enter 1 or 2: ").strip()
-        print()
-
-        if choice == "1":
-            artworks = random_fill(artworks, target_count)
-            break
-        elif choice == "2":
-            title, start_year, end_year, artist, culture, classification, medium, technique, keyword = client()
-            artworks = searching_function(
-                title=title,
-                start_year=start_year,
-                end_year=end_year,
-                artist=artist,
-                culture=culture,
-                classification=classification,
-                medium=medium,
-                technique=technique,
-                keyword=keyword,
-                existing_artworks=artworks,
-                target_count=target_count,
-            )
-        else:
-            print("Invalid choice. Please enter 1 or 2.\n")
-
-    # Build HTML gallery with metadata (including culture, classification, medium, technique)
-    criteria_str = build_criteria_string(
-        title, start_year, end_year, artist, culture, classification, medium, technique, keyword
-    )
-    page_title = f"{name}'s art gallery based on {criteria_str}"
-    build_html_gallery(artworks, page_title, name)
-
-
-if __name__ == '__main__':
-    main()

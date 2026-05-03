@@ -230,6 +230,9 @@ def delete_old_artwork_files():
 
 def main():
 
+    name = input("What's your name? ").strip()
+    print(f"Perfect! Let's create {name}'s Art Exhibition:\n")
+    
     user()
 
     delete_old_artwork_files()

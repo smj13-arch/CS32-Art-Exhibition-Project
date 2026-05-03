@@ -34,7 +34,11 @@ From there, the program will:
 
 In order for this project to work, we quickly realized (with guidance from our wonderful amazing glorious TA Adrian) that
 simply pasting the data from the Harvard Art Museums website into a CSV file would not be feasible. Instead, we learned how
-to work with the capabilities of the Harvard Art Museums API
+to work with the capabilities of the Harvard Art Museums API and leveraged its resources to make this project a reality! For
+example, we requested to get our own personal API key, downloaded JSON reader extensions to chrome in the early stages of
+understanding our data, and finally used the aid of generative AI to help get the data from the API to the webpage.
+
+
 
 
 

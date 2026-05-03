@@ -107,6 +107,12 @@ def searching_function( #The quotations were added so that the entry was optiona
     return existing_artworks #return the artworks our search found!
 
 
+
+
+
+
+
+
 def random_fill(artworks, target_count=5): # function to randomly generate the next paintings (if search returned fewer than 5 or if user requested random gallery)
     base_url = "https://api.harvardartmuseums.org/object" # base url for our API search
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0" # our unique key, requested from Harvard Art Musuem (HAM)

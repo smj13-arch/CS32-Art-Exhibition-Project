@@ -14,8 +14,7 @@ def user():
     print(intro_text) # utilizing multiline print statement
 
     print("Let's begin!")
-    name = input("What's your name? ").strip()
-    print(f"Perfect! Let's create {name}'s Art Exhibition:\n")
+
     note = """
     To start curating your own gallery, enter your search criteria below. You can specify
     as many or as few as you'd like! Also, if you're unsure about any of the search criteria,
@@ -25,6 +24,7 @@ def user():
     """
     print(note)
 
-    return name
+    
+
 
 

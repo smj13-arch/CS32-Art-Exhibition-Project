@@ -4,6 +4,7 @@ import random
 from PIL import Image
 from io import BytesIO
 
+<<<<<<< HEAD
 
 def client():
     title = input("Title (optional): ").strip()
@@ -58,6 +59,9 @@ def save_artwork(artwork, saved_count, label=""):
 
 
 def searching_function(title="", start_year="", end_year="", artist="", culture="", classification="", keyword="", saved_count=0, target_count=5):
+=======
+def searching_function(painting_name):
+>>>>>>> 2f46b2376a1be4100bc041f3c45f92740877e0b7
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 

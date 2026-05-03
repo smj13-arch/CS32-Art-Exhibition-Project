@@ -42,10 +42,9 @@ understanding our data, and finally used the aid of generative AI to help get th
 
 ## Citing Sources
 
-At the beginning of our program, our text is presented in large blocks and we learned that from: https://www.geeksforgeeks.org/python/multi-line-printing-in-python/
-https://api-toolkit.herokuapp.com/4
+At the beginning of our program, our text is presented in large blocks [formatting]: https://www.geeksforgeeks.org/python/multi-line-printing-in-python/
+This website gives the instructions on how to query the art museum and retrieve artwork data. We obtained our API key from the form listed on the Harvard Art Museums github documentation (needed to request it) and also  [Museum API Toolkit and Guide]: (https://api-toolkit.herokuapp.com/4)
 
-**Harvard Art Museums API** — used to query and retrieve artwork data: [Museum API Toolkit and Guide](https://api-toolkit.herokuapp.com/4)
 
 
 

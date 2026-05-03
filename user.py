@@ -1,5 +1,11 @@
 # Instructions and welcome user to ART EXHIBITOR
 from searching import delete_old_artwork_files
+from searching import client
+from searching import searching_function
+from searching import random_fill
+from searching import build_criteria_string
+from website import build_html_gallery
+import os
 
 
 def user():

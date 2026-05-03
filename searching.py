@@ -4,6 +4,137 @@ import random
 from PIL import Image
 from io import BytesIO
 
+# create "gallery" folder to save images to
+GALLERY_DIR = "gallery"
+os.makedirs(GALLERY_DIR, exist_ok=True)
+
+def build_html_gallery(artworks, page_title, name):
+    if not artworks:
+        print("No artworks to build gallery.")
+        return
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{page_title}</title>
+  <style>
+    * {{
+      box-sizing: border-box;
+    }}
+    body {{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f3f3f3;
+      margin: 0;
+    }}
+    h1 {{
+      text-align: center;
+      padding: 24px 16px 4px;
+      margin: 0;
+      font-size: 2.4rem;
+    }}
+    h2 {{
+      text-align: center;
+      margin: 0 0 24px;
+      font-weight: normal;
+      color: #666;
+      font-size: 1.1rem;
+    }}
+    .page {{
+      max-width: 900px;
+      margin: 0 auto 48px;
+      padding: 0 16px 32px;
+    }}
+    .card {{
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.16);
+      overflow: hidden;
+      margin: 24px 0;
+    }}
+    .card img {{
+      width: 100%;
+      height: auto;
+      display: block;
+    }}
+    .info {{
+      padding: 14px 18px 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }}
+    .title {{
+      font-weight: 600;
+      margin-bottom: 4px;
+    }}
+    .artist {{
+      font-style: italic;
+      color: #444;
+    }}
+    .year {{
+      color: #777;
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }}
+    .meta {{
+      color: #555;
+      margin-top: 4px;
+      font-size: 0.9rem;
+    }}
+    .description {{
+      color: #555;
+      margin-top: 4px;
+    }}
+  </style>
+</head>
+<body>
+  <h1>{name}'s Art Exhibition</h1>
+  <h2>{page_title}</h2>
+  <div class="page">
+"""
+
+    for art in artworks:
+        src = f"{GALLERY_DIR}/{art['filename']}"
+        title = art["title"]
+        artist = art["artist"]
+        year = art["year"]
+        culture = art.get("culture", "Unknown Culture")
+        classification = art.get("classification", "Unknown Classification")
+        medium = art.get("medium", "Unknown Medium")
+        technique = art.get("technique", "Unknown Technique")
+        description = art.get("description", "")
+
+        html += f"""    <div class="card">
+      <img src="{src}" alt="{title}">
+      <div class="info">
+        <div class="title">{title}</div>
+        <div class="artist">{artist}</div>
+        <div class="year">{year}</div>
+        <div class="meta">
+          <strong>Culture:</strong> {culture}<br>
+          <strong>Classification:</strong> {classification}<br>
+          <strong>Medium:</strong> {medium}<br>
+          <strong>Technique:</strong> {technique}
+        </div>"""
+
+        if description:
+            html += f"""
+        <div class="description">{description}</div>"""
+
+        html += """
+      </div>
+    </div>
+"""
+
+    html += """  </div>
+</body>
+</html>
+"""
+
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+    print("Gallery written to index.html – open it in your browser.")
+
 
 def client():
     title = input("Title (optional): ").strip()
@@ -25,39 +156,70 @@ def client():
     return title, start_year, end_year, artist, culture, classification, keyword
 
 
-def save_artwork(artwork, saved_count, label=""):
+def save_artwork_to_gallery(artwork, saved_count, label=""):
     image_url = artwork.get("primaryimageurl")
     if not image_url:
-        return False
+        return None
 
-    art_title = artwork.get("title", "Untitled")
-    art_artist = artwork.get("people", [{}])[0].get("name", "Unknown Artist") if artwork.get("people") else "Unknown Artist"
-    art_year = artwork.get("dated", "Unknown Year")
-    art_culture = artwork.get("culture", "Unknown Culture")
-    art_classification = artwork.get("classification", "Unknown Classification")
+    title = artwork.get("title", "Untitled")
+    artist = artwork.get("people", [{}])[0].get("name", "Unknown Artist") if artwork.get("people") else "Unknown Artist"
+    year = artwork.get("dated", "Unknown Year")
+    culture = artwork.get("culture", "Unknown Culture")
+    classification = artwork.get("classification", "Unknown Classification")
+    medium = artwork.get("medium", "Unknown Medium")
+    technique = artwork.get("technique", "Unknown Technique")
+    description = artwork.get("description") or artwork.get("labeltext") or ""
 
     img_response = requests.get(image_url)
     content_type = img_response.headers.get("Content-Type", "")
 
     if "image" not in content_type:
-        return False
+        return None
 
     image = Image.open(BytesIO(img_response.content))
     if image.mode != "RGB":
         image = image.convert("RGB")
-    filename = f"artwork_{saved_count + 1}.jpg"
+
+    filename = os.path.join(GALLERY_DIR, f"artwork_{saved_count + 1}.jpg")
     image.save(filename, "JPEG")
+
     print(f"Saved {filename}{label}")
-    print("  Title:", art_title)
-    print("  Artist:", art_artist)
-    print("  Year:", art_year)
-    print("  Culture:", art_culture)
-    print("  Classification:", art_classification)
+    print("  Title:", title)
+    print("  Artist:", artist)
+    print("  Year:", year)
+    print("  Culture:", culture)
+    print("  Classification:", classification)
+    print("  Medium:", medium)
+    print("  Technique:", technique)
     print()
-    return True
+
+    return {
+        "filename": os.path.basename(filename),
+        "title": title,
+        "artist": artist,
+        "year": year,
+        "culture": culture,
+        "classification": classification,
+        "medium": medium,
+        "technique": technique,
+        "description": description,
+    }
 
 
-def searching_function(title="", start_year="", end_year="", artist="", culture="", classification="", keyword="", saved_count=0, target_count=5):
+def searching_function(
+    title="",
+    start_year="",
+    end_year="",
+    artist="",
+    culture="",
+    classification="",
+    keyword="",
+    existing_artworks=None,
+    target_count=5,
+):
+    if existing_artworks is None:
+        existing_artworks = []
+
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
 
@@ -92,20 +254,26 @@ def searching_function(title="", start_year="", end_year="", artist="", culture=
 
     if not records:
         print("No artworks found matching your search criteria.")
-        return saved_count
+        return existing_artworks
+
+    saved_count = len(existing_artworks)
 
     for artwork in records:
         if saved_count >= target_count:
             break
-        if save_artwork(artwork, saved_count):
+        saved = save_artwork_to_gallery(artwork, saved_count)
+        if saved:
+            existing_artworks.append(saved)
             saved_count += 1
 
-    return saved_count
+    return existing_artworks
 
 
-def random_fill(saved_count, target_count=5):
+def random_fill(artworks, target_count=5):
     base_url = "https://api.harvardartmuseums.org/object"
     api_key = "d085cac8-e2aa-425f-b3d5-2c5b49d15fc0"
+
+    saved_count = len(artworks)
 
     while saved_count < target_count:
         random_page = random.randint(1, 500)
@@ -125,52 +293,101 @@ def random_fill(saved_count, target_count=5):
         for artwork in records:
             if saved_count >= target_count:
                 break
-            if save_artwork(artwork, saved_count, label=" (random)"):
+            saved = save_artwork_to_gallery(artwork, saved_count, label=" (random)")
+            if saved:
+                artworks.append(saved)
                 saved_count += 1
 
-    return saved_count
+    return artworks
 
+def build_criteria_string(title, start_year, end_year, artist, culture, classification, keyword):
+    parts = []
+
+    if title:
+        parts.append(f'title "{title}"')
+    if artist:
+        parts.append(f'artist "{artist}"')
+    if culture:
+        parts.append(f'culture "{culture}"')
+    if classification:
+        parts.append(f'classification "{classification}"')
+    if keyword:
+        parts.append(f'keyword "{keyword}"')
+    if start_year and end_year:
+        parts.append(f'year range {start_year}–{end_year}')
+    elif start_year:
+        parts.append(f'year ≥ {start_year}')
+    elif end_year:
+        parts.append(f'year ≤ {end_year}')
+
+    if not parts:
+        return "a random selection"
+
+    # join nicely: "A, B, and C"
+    if len(parts) == 1:
+        return parts[0]
+    return ", ".join(parts[:-1]) + " and " + parts[-1]
 
 def main():
+    # KEEP: ask for name
+    name = input("What's your name? ").strip()
+    print(f"{name}'s Art Exhibition:")
+    print()
+
     print("Harvard Art Museums Search")
     print("Leave any field blank to skip that filter.\n")
 
+    # delete any old artwork files in gallery
+    for f in os.listdir(GALLERY_DIR):
+        if f.lower().startswith("artwork_") and f.lower().endswith(".jpg"):
+            os.remove(os.path.join(GALLERY_DIR, f))
+
     title, start_year, end_year, artist, culture, classification, keyword = client()
 
-    for i in range(1, 6):
-        filename = f"artwork_{i}.jpg"
-        if os.path.exists(filename):
-            os.remove(filename)
-
     target_count = 5
-    saved_count = searching_function(
-        title=title, start_year=start_year, end_year=end_year,
-        artist=artist, culture=culture, classification=classification,
-        keyword=keyword, target_count=target_count,
+    artworks = searching_function(
+        title=title,
+        start_year=start_year,
+        end_year=end_year,
+        artist=artist,
+        culture=culture,
+        classification=classification,
+        keyword=keyword,
+        existing_artworks=[],
+        target_count=target_count,
     )
 
-    while saved_count < target_count:
-        print(f"We only found {saved_count} artwork(s) so far and we require that our exhibitions are five pieces. What would you like to do?")
+    while len(artworks) < target_count:
+        print(f"We only found {len(artworks)} artwork(s) so far and we require that our exhibitions are five pieces. What would you like to do?")
         choice = input("Would you like to (1) randomly generate the rest, or (2) search again with new parameters? Enter 1 or 2: ").strip()
         print()
 
         if choice == "1":
-            saved_count = random_fill(saved_count, target_count)
+            artworks = random_fill(artworks, target_count)
             break
         elif choice == "2":
             title, start_year, end_year, artist, culture, classification, keyword = client()
-            saved_count = searching_function(
-                title=title, start_year=start_year, end_year=end_year,
-                artist=artist, culture=culture, classification=classification,
-                keyword=keyword, saved_count=saved_count, target_count=target_count,
+            artworks = searching_function(
+                title=title,
+                start_year=start_year,
+                end_year=end_year,
+                artist=artist,
+                culture=culture,
+                classification=classification,
+                keyword=keyword,
+                existing_artworks=artworks,
+                target_count=target_count,
             )
         else:
             print("Invalid choice. Please enter 1 or 2.\n")
 
-    for i in range(1, 6):
-        filename = f"artwork_{i}.jpg"
-        if os.path.exists(filename):
-            Image.open(filename).show()
+    # Build HTML gallery with metadata (including culture, classification, medium, technique)
+    criteria_str = build_criteria_string(
+        title, start_year, end_year, artist, culture, classification, keyword
+    )
+    page_title = f"{name}'s art gallery based on {criteria_str}"
+    build_html_gallery(artworks, page_title, name)
 
 
-main()
+if __name__ == '__main__':
+    main()

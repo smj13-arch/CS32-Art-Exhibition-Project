@@ -38,7 +38,7 @@ to work with the capabilities of the Harvard Art Museums API and leveraged its r
 example, we requested to get our own personal API key, downloaded JSON reader extensions to chrome in the early stages of
 understanding our data, and finally used the aid of generative AI to help get the data from the API to the webpage.
 
-It is crucial that we run this code on **local** IDEs because we recall from class that the PIL 
+It is crucial that we run this code on **local** IDEs because we recall from class that the PIL has trouble showing the images on web-based IDEs. So in this process we were stumped for quite 
 
 **install pip, pillow. etc.
 

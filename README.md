@@ -8,6 +8,14 @@ art galleries. It is often infeasible to physically find the art pieces and lay 
 hours, days, or even weeks finding orientations that are both aesthetically pleasing and agree with
 the artists' intentions.
 
+## What our project does
+
+Essentially, the ART EXHIBITOR allows users to generate and visualize their own art galleries, drawing upon
+a wide selection from the Harvard Art Museums' collection. We utilize the Harvard Art Museums API (we obtained
+a personal key for this project) to parse through artworks and find five pieces which match the user's search
+query. An additional component we added to this project was the ability to paste the images of the art pieces to
+a a live HTML web link (it was quite difficult, so we utilized generative AI to help us accomplish this). It links
+the pieces to a web page, with information such as title, year, medium, and the piece description displayed as well.
 
 ## Instructions for Running the Code
 
@@ -21,6 +29,12 @@ From there, the program will:
 3. Collect search parameters one at a time: title, start year, end year, artist, culture, classification, medium, technique, and keyword/theme. All fields are optional; leave any blank to skip that filter.
 4. Query the Harvard Art Museums API to assemble a gallery of 5 artworks based on your criteria.
 5. Generate a `index.html` file to create your dream art gallery!
+
+## Special steps
+
+In order for this project to work, we quickly realized (with guidance from our wonderful amazing glorious TA Adrian) that
+simply pasting the data from the Harvard Art Museums website into a CSV file would not be feasible. Instead, we learned how
+to work with the capabilities of the Harvard Art Museums API
 
 
 
